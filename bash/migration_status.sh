@@ -1,4 +1,5 @@
 #!/bin/bash
+# call ./migration_status <hosts_file> <port_A> <port_B>
 
 while read host
 do
