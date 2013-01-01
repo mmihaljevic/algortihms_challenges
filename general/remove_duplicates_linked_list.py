@@ -1,7 +1,8 @@
 """
-Write code to remove duplicates from an unsorted linked list.
-FOLLOW UP
-How would you solve this problem if a temporary buffer is not allowed?
+1. Write code to remove duplicates from an unsorted linked list.
+2. Implement an algorithm to find the nth to last element of a singly linked list.
+
+Note: singly linked list
 """
 
 class Node(object):
@@ -25,6 +26,7 @@ class LinkedList(object):
         return '->'.join(output)
  
     def add(self, node):
+        ''' adds node to a list '''
         if self.head == None:
             self.head = node
         else:
@@ -34,6 +36,7 @@ class LinkedList(object):
             current.next = node
 
     def remove(self, datum):
+        ''' removes element from a list with given datum '''
         current = self.head
         if current.datum == datum:
             self.head = current.next
@@ -43,8 +46,8 @@ class LinkedList(object):
                 break
             current = current.next
        
-    # remove duplicates - using additional data structure
     def remove_duplicates(self):
+        ''' removes all duplicates from the list '''
         if self.head is None:
             return False
         unique = {}
@@ -56,7 +59,30 @@ class LinkedList(object):
             else:
                 unique[node.next.datum] = 1
                 node = node.next
-     
+
+    def n_th_last(self, n): 
+        ''' finds n-th last element of the list '''
+        if self.head is None:
+            return False
+        # first - make a window of length n
+        start = self.head
+        end = self.head
+        
+        while n > 0 and end:
+            end = end.next
+            n -= 1
+
+        # less than n elements in a list
+        if n > 0:
+            return False       
+        
+        # until reaching the end move window for one place
+        while end:
+            start = start.next
+            end = end.next
+        
+        return start.datum
+            
 # test data
 n1 = Node(1)    
 n2 = Node(12)
@@ -96,8 +122,11 @@ print list
 list.add(n9)
 print list
 
-list.remove_duplicates()
-print list
+# list.remove_duplicates()
+# print list
+
+print list.n_th_last(5)
+print list.n_th_last(34) 
 
 #list.remove(11)
 #print list
