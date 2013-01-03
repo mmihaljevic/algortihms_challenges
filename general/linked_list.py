@@ -1,7 +1,6 @@
 """
 1. Write code to remove duplicates from an unsorted linked list.
 2. Implement an algorithm to find the nth to last element of a singly linked list.
-
 Note: singly linked list
 """
 
