@@ -1,6 +1,7 @@
 """
 1. Write code to remove duplicates from an unsorted linked list.
 2. Implement an algorithm to find the nth to last element of a singly linked list.
+3. Given a sorted linked list, delete all duplicate numbers, leave only distinct numbers from original list. e.g., given 1->2->3->3->4->4->5, return 1->2->5. Given 1->1->1->2->3, return 2->3
 Note: singly linked list
 """
 
@@ -59,6 +60,39 @@ class LinkedList(object):
                 unique[node.next.datum] = 1
                 node = node.next
 
+    def remove_duplicates_sorted(self):
+        '''remove duplicates from sorted list '''
+        if self.head is None:
+            return False
+        node = self.head
+        # flag for duplicate removal
+        duplicate = False
+        remove_current = False
+        removed = False
+        while node.next:
+            duplicate = node.datum == node.next.datum            
+            while duplicate and node.next:
+                node.datum = node.next.datum
+                node.next = node.next.next
+                remove_current = True   
+                if node.next:             
+                    duplicate = node.datum == node.next.datum
+                    # cleaning at the end
+                    if not duplicate and remove_current:
+                        node.datum = node.next.datum
+                        node.next = node.next.next
+                        remove_current = False
+                        removed = True
+            # additional check if node.next exists
+            if not removed and node.next:    
+                node = node.next
+            removed = False
+
+        if duplicate:
+            if node == self.head:
+                return None
+        return self 
+
     def n_th_last(self, n): 
         ''' finds n-th last element of the list '''
         if self.head is None:
@@ -81,7 +115,31 @@ class LinkedList(object):
             end = end.next
         
         return start.datum
-            
+          
+
+# test data for remove_duplicates_sorted
+# case 1 - all unique
+nodes1 = [Node(1), Node(2), Node(3), Node(4), Node(5)]
+# case 2 - one double in the middle
+nodes2 = [Node(1), Node(2), Node(3), Node(3), Node(4), Node(5)]
+# case 3 - 2 double in the middle
+nodes3 = [Node(1), Node(2), Node(2), Node(3), Node(3), Node(4), Node(5)]
+# case 4 - double at the begining:
+nodes4 = [Node(1), Node(1), Node(2), Node(3), Node(4), Node(5)]
+# case 5 - more than double:
+nodes5 = [Node(1), Node(2), Node(2), Node(2), Node(3), Node(4), Node(5)]
+# case 6 - all the same:
+nodes6 = [Node(1), Node(1), Node(1), Node(1), Node(1)]
+
+list = LinkedList()
+for node in nodes6:
+    list.add(node)
+
+print list
+print list.remove_duplicates_sorted() 
+
+
+"""
 # test data
 n1 = Node(1)    
 n2 = Node(12)
@@ -129,3 +187,4 @@ print list.n_th_last(34)
 
 #list.remove(11)
 #print list
+"""
